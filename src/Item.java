@@ -47,35 +47,79 @@ public class Item {
         this.unitPrice = unitPrice;
     } // end of Item constructor
 
+    /**
+     * Mutates state of productID with user-given value
+     * @param productID given product ID
+     */
     public void setProductID(int productID) {
         this.productID = productID;
-    }
+    } // end of setProductID mutator method
 
+    /**
+     * Mutates state of name with user-given value
+     * @param name given name
+     */
     public void setName(String name) {
         this.name = name;
-    }
+    } // end of setName mutator method
 
+    /**
+     * Mutates state of quantity with user-given value
+     * @param quantity given quantity
+     */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
+    } // end of setQuantity mutator method
 
+    /**
+     * Mutates state of unit price with user-given value
+     * @param unitPrice given unit price
+     */
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
-    }
+    } // end of setUnitPrice mutator method
 
+    /**
+     * Accesses the state of product ID
+     * @return state/value of productID
+     */
     public int getProductID() {
         return productID;
-    }
+    } // end of getProductID accessor method
 
+    /**
+     * Accesses the state of name
+     * @return state/value of name
+     */
     public String getName() {
         return name;
-    }
+    } // end of getName accessor method
 
+    /**
+     * Accesses the state of quantity
+     * @return state/value of quantity
+     */
     public int getQuantity() {
         return quantity;
     } // end of getQuantity accessor method
 
+    /**
+     * Accesses the state of unit price
+     * @return state/value of unit price
+     */
     public double getUnitPrice() {
         return unitPrice;
-    }
+    } // end of getUnitPrice accessor method
+
+    /**
+     * Concatenates the attributes of object Item
+     * @return comma-separated values of the attribute states.
+     */
+    @Override
+    public String toString() {
+        return productID + "," +
+                name + "," +
+                quantity + "," +
+                unitPrice;
+    } // end of toString method
 } // end of class Item
