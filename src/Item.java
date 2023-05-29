@@ -24,6 +24,11 @@ public class Item {
     private double unitPrice;
 
     /**
+     * Total price of the item.
+     */
+    private double totalPrice;
+
+    /**
      * Constructs an object of Item with default values.
      */
     public Item() {
@@ -31,10 +36,11 @@ public class Item {
         name = "Caramel Machiatto";
         quantity = 2;
         unitPrice = 210;
+        totalPrice = quantity * unitPrice;
     } // end of Item default constructor
 
     /**
-     * Constructs an object of Item with user-defined values/
+     * Constructs an object of Item with user-defined values
      * @param productID given product ID
      * @param name given product name
      * @param quantity given quantity
@@ -45,6 +51,17 @@ public class Item {
         this.name = name;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
+        this.totalPrice = quantity * unitPrice;
+    } // end of Item constructor
+
+    /**
+     * Constructs an object of Item with user-defined product ID, name, and unit price only.
+     * @param productID given product ID
+     * @param name given name
+     * @param unitPrice given unit price
+     */
+    public Item(int productID, String name, double unitPrice) {
+
     } // end of Item constructor
 
     /**
@@ -80,6 +97,14 @@ public class Item {
     } // end of setUnitPrice mutator method
 
     /**
+     * Mutates state of total price with user-given value
+     * @param totalPrice given total price
+     */
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    } // end of setTotalPrice mutator method
+
+    /**
      * Accesses the state of product ID
      * @return state/value of productID
      */
@@ -110,6 +135,14 @@ public class Item {
     public double getUnitPrice() {
         return unitPrice;
     } // end of getUnitPrice accessor method
+
+    /**
+     * Accesses the state of total price
+     * @return state/value of total price
+     */
+    public double getTotalPrice() {
+        return totalPrice;
+    } // end of getTotalPrice accessor method
 
     /**
      * Concatenates the attributes of object Item
