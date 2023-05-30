@@ -128,8 +128,9 @@ public class PointOfSaleUtility {
     public void printReceipt(List<Item> purchasedItems, String customerName,
                              double totalPrice, double tenderedAmount, double change, double discount) throws IOException {
         try {
-            BufferedWriter outputStream = new BufferedWriter(new PrintWriter("purchased-items/" + dateFormat));
             LocalDateTime now = LocalDateTime.now(); // Date of application use
+            BufferedWriter outputStream = new BufferedWriter(
+                    new PrintWriter("purchased-items/" + dateFormat.format(now)));
 
 
             outputStream.write("========================================================\n");
