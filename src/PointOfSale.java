@@ -50,48 +50,30 @@ public class PointOfSale extends JFrame {
     public PointOfSale() {
         super("Point of Sale System");
 
-        // Main Panel
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        frame.setSize(1200,600);
+        frame.setLayout(new GridLayout(2,2));
 
-        JLabel titleLabel = new JLabel("Point of Sale", SwingConstants.CENTER);
-        titleLabel.setForeground(Color.BLACK);
-        titleLabel.setBorder(BorderFactory.createBevelBorder(10));
-        mainPanel.add(titleLabel);
+        // Search bar
+        JPanel searchPanel = new JPanel();
+        searchPanel.setBackground(Color.black);
+        frame.add(searchPanel);
 
-        // Search Panel
-        JPanel searchPanel = new JPanel(new BorderLayout());
-        searchPanel.setBackground(Color.DARK_GRAY);
+        JPanel tablePanel = new JPanel();
+        tablePanel.setBackground(Color.DARK_GRAY);
+        frame.add(tablePanel);
 
-        JLabel idLabel = new JLabel("Product ID");
+        JPanel salesPanel = new JPanel();
+        salesPanel.setBackground(Color.CYAN);
+        frame.add(salesPanel);
 
-        JTextField idTextField = new JTextField();
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setBackground(Color.magenta);
+        frame.add(buttonsPanel);
 
-        JLabel nameLabel = new JLabel("Product Name");
-
-        JTextField nameTextField = new JTextField();
-
-        JLabel quantityLabel = new JLabel("Quantity");
-
-        JComboBox<Integer> quantityComboBox = new JComboBox<>();
-
-        JLabel unitPriceLabel = new JLabel("Unit Price");
-
-        JTextField unitPriceTextField = new JTextField();
-
-        JLabel totalPriceLabel = new JLabel("Total Price");
-
-        JTextField totalPriceTextField = new JTextField();
-
-        JButton addButton = new JButton("Add");
-
-
-        // Right Panel
-        JPanel rightPanel = new JPanel(new BorderLayout());
-
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1200,600);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setVisible(true);
     } // end of PointOfSale constructor
 } // end of class PointOfSale
