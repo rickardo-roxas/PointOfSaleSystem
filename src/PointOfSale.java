@@ -50,30 +50,37 @@ public class PointOfSale extends JFrame {
     public PointOfSale() {
         super("Point of Sale System");
 
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setSize(1200,600);
-        frame.setLayout(new GridLayout(2,2));
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1200,600);
+        setLayout(new GridLayout(2,2));
 
         // Search bar
         JPanel searchPanel = new JPanel();
-        searchPanel.setBackground(Color.black);
-        frame.add(searchPanel);
+        searchPanel.setBackground(Color.);
+        add(searchPanel);
 
+        // Search bar components
+        JLabel idLabel = new JLabel();
+        idLabel.setText("Product ID");
+
+
+        // Holds the table for items being purchased
         JPanel tablePanel = new JPanel();
         tablePanel.setBackground(Color.DARK_GRAY);
-        frame.add(tablePanel);
+        add(tablePanel);
 
+        // Holds the text fields
         JPanel salesPanel = new JPanel();
         salesPanel.setBackground(Color.CYAN);
-        frame.add(salesPanel);
+        add(salesPanel);
 
+        // Holds the buttons
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBackground(Color.magenta);
-        frame.add(buttonsPanel);
+        add(buttonsPanel);
 
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
     } // end of PointOfSale constructor
 } // end of class PointOfSale
