@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.io.*;
 import java.lang.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -8,6 +10,14 @@ import java.util.*;
  * @version 1.00 2023/05/29
  */
 public class PointOfSaleUtility {
+
+    /**
+     * Template for date.
+     * YEAR/MONTH/DATE HH:MM:SS (e.g., 2023/05/22 00:00:00)
+     */
+    private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+
+
     /**
      * List of items being sold
      */
@@ -92,9 +102,63 @@ public class PointOfSaleUtility {
         } // end of try-catch
     } // end of searchItem method
 
-    public Item searchItem(int id, String name) {
+    /**
+     * Searches specified item in the list of items in the inventory
+     * Uses the linear search algorithm.
+     * @param id given keyword
+     * @param name given keyword
+     * @return specified Item
+     */
+    public Item searchItem(int id, String name) throws Exception {
+        Item indexedItem = null;
         for (Item item : inventoryItems) {
-            if (inventoryItems.contains(id || name))
-        }
+            if (item.getName().equalsIgnoreCase(name) || item.getProductID() == id) {
+                indexedItem = new Item(item.getProductID(), item.getName(), 1, item.getUnitPrice());
+            } else
+                throw new Exception();
+        } // end of for
+        return indexedItem;
     } // end of searchItem method
+
+    /**
+     * Prints receipt
+     * @param purchasedItems List of purchased Items
+     * @param customerName name of customer
+     */
+    public void printReceipt(List<Item> purchasedItems, String customerName,
+                             double totalPrice, double tenderedAmount, double change, double discount) throws IOException {
+        try {
+            BufferedWriter outputStream = new BufferedWriter(new PrintWriter("purchased-items/" + dateFormat));
+            LocalDateTime now = LocalDateTime.now(); // Date of application use
+
+
+            outputStream.write("========================================================\n");
+            outputStream.write("                          Receipt                       \n");
+            outputStream.write("========================================================\n");
+
+            int counter = 1;
+            for (Item item : purchasedItems) {
+                outputStream.write(String.format
+                        ("%-5d %-10d %-3d %-10.2f %n" , counter, item.getProductID(), item.getQuantity() , item.getUnitPrice()));
+                outputStream.write(String.format
+                        ("%-5s %-10s %-3s %-10.2f %n %n" , " ", item.getName(), " " , item.getTotalPrice()));
+                counter++;
+            } // end of for
+            outputStream.write(String.format("%-20s %-20s %n" , "Customer Name:" , customerName));
+            outputStream.write(String.format("%-20s %-5.2f %n" , "Total Price:" , totalPrice));
+            outputStream.write(String.format("%-20s %-5.2f %n" , "Discounted Price:" , discount));
+            outputStream.write(String.format("%-20s %-5.2f %n" , "Amount Paid:" , tenderedAmount));
+            outputStream.write(String.format("%-20s %-5.2f %n" , "Change:" , change));
+            outputStream.newLine();
+            outputStream.write("Date of Purchase:" + dateFormat.format(now));
+
+            outputStream.write("========================================================\n");
+            outputStream.write("               Thank you for your purchase              \n");
+            outputStream.write("========================================================\n");
+
+            outputStream.close();
+        } catch (IOException e1) {
+            throw new IOException();
+        } // end of try-catch
+    } // end of printReceipt method
 } // end of class PointOfSaleUtility
