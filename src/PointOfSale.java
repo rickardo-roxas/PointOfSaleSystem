@@ -26,9 +26,7 @@ public class PointOfSale extends JFrame {
     /**
      * TODO: Documentation
      */
-    private List<Item> purchasedItems = new ArrayList<>();
-
-    private List<Item> inventoryItems = new ArrayList<>();
+    private final List<Item> purchasedItems = new ArrayList<>();
 
     private Item foundItem;
 
@@ -45,7 +43,7 @@ public class PointOfSale extends JFrame {
         PointOfSale pos;
         try {
             pos = new PointOfSale();
-            // pos.pack();
+            pos.run();
         } catch (Exception e) {
             e.printStackTrace();
         } // end of try-catch
@@ -346,18 +344,17 @@ public class PointOfSale extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int id = Integer.parseInt(idTextField.getText().trim());
-                    String name = nameTextField.getText().trim();
-                    int quantity = (int) quantitySpinner.getValue();
+                    int id = (!idTextField.getText().equals("")) ? Integer.parseInt(idTextField.getText().trim()) : 0;
+                    String name = (!nameTextField.getText().equals("")) ? nameTextField.getText().trim() : null;
 
-                    foundItem = utility.searchItem(id, name);
-                    foundItem.setQuantity(quantity);
+                    Item foundItem = utility.searchItem(id, name);
 
                     priceTextField.setText(String.valueOf(foundItem.getUnitPrice()));
                     totalTextField.setText(String.valueOf(foundItem.getTotalPrice()));
                 } catch (NumberFormatException e1) {
                     JOptionPane.showMessageDialog(null, "Error looking for product. Try again.");
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error finding item. Try again");
                 } // end of try-catch
             } // end of actionPerformed method
@@ -379,7 +376,6 @@ public class PointOfSale extends JFrame {
     private void run() throws Exception {
         try {
             utility.populateInventory();
-            inventoryItems = utility.inventoryItems;
         } catch (Exception e) {
             throw new Exception();
         } // end of try-catch

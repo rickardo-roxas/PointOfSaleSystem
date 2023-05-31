@@ -84,7 +84,7 @@ public class PointOfSaleUtility {
      */
     public void populateInventory() throws Exception {
         try {
-            BufferedReader inputStream = new BufferedReader(new FileReader("inventory/items.csv"));
+            BufferedReader inputStream = new BufferedReader(new FileReader("items.csv"));
             String line = "";
 
             while ((line = inputStream.readLine()) != null) {
@@ -93,6 +93,7 @@ public class PointOfSaleUtility {
                 String name = itemMetadata[1];
                 double unitPrice = Double.parseDouble(itemMetadata[2]);
                 inventoryItems.add(new Item(id, name, unitPrice));
+                System.out.println(inventoryItems.toString());
             } // end of while
             inputStream.close();
         } catch (FileNotFoundException e) {

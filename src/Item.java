@@ -61,7 +61,11 @@ public class Item {
      * @param unitPrice given unit price
      */
     public Item(int productID, String name, double unitPrice) {
-
+        this.productID = productID;
+        this.name = name;
+        this.unitPrice = unitPrice;
+        this.quantity = 1;
+        this.totalPrice = unitPrice * quantity;
     } // end of Item constructor
 
     /**
