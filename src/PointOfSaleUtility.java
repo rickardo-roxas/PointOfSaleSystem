@@ -70,7 +70,7 @@ public class PointOfSaleUtility {
      * @return amount to be paid
      * @throws Exception if error occurs
      */
-    public double computeTotalPrice(List<Item> itemsPurchased) throws Exception {
+    public double computeTotalPrice(List<Item> itemsPurchased) {
         double totalPrice = 0.0;
         for (Item item : itemsPurchased) {
             totalPrice = totalPrice + item.getTotalPrice();

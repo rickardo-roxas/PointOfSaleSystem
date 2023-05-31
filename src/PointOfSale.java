@@ -106,9 +106,9 @@ public class PointOfSale extends JFrame {
         gbc.gridwidth = 2;
         JTextField idTextField = new JTextField();
         idTextField.setColumns(5);
-        idTextField.setForeground(Color.white);
+        idTextField.setForeground(Color.black);
         idTextField.setFont(new Font("Arial", Font.PLAIN, 12));
-        idTextField.setBackground(Color.black);
+        idTextField.setBackground(Color.white);
         searchPanel.add(idTextField,gbc);
 
         // Product Name
@@ -128,7 +128,8 @@ public class PointOfSale extends JFrame {
         gbc.gridwidth = 2;
         JTextField nameTextField = new JTextField();
         nameTextField.setColumns(10);
-        nameTextField.setForeground(Color.white);
+        nameTextField.setForeground(Color.black);
+        nameTextField.setBackground(Color.white);
         searchPanel.add(nameTextField, gbc);
 
         // Quantity
@@ -141,6 +142,7 @@ public class PointOfSale extends JFrame {
         quantityLabel.setForeground(Color.white);
         searchPanel.add(quantityLabel, gbc);
 
+        // Quantity
         // Spinner
         gbc.gridx = 5;
         gbc.gridy = 2;
@@ -347,12 +349,21 @@ public class PointOfSale extends JFrame {
                     int id = (!idTextField.getText().equals("")) ? Integer.parseInt(idTextField.getText().trim()) : 0;
                     String name = (!nameTextField.getText().equals("")) ? nameTextField.getText().trim() : null;
 
-                    Item foundItem = utility.searchItem(id, name);
+                    foundItem = utility.searchItem(id, name);
+
+                    if (idTextField.getText().equals(""))
+                        idTextField.setText(String.valueOf(foundItem.getProductID()));
+                    else if (nameTextField.getText().equals(""))
+                        nameTextField.setText(foundItem.getName());
+
+                    foundItem.setQuantity((int) quantitySpinner.getValue());
+                    foundItem.setTotalPrice(foundItem.getUnitPrice() * foundItem.getQuantity());
 
                     priceTextField.setText(String.valueOf(foundItem.getUnitPrice()));
                     totalTextField.setText(String.valueOf(foundItem.getTotalPrice()));
+                    purchasedItems.add(foundItem);
                 } catch (NumberFormatException e1) {
-                    JOptionPane.showMessageDialog(null, "Error looking for product. Try again.");
+                    JOptionPane.showMessageDialog(null, "Invalid inputs. Try again.");
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error finding item. Try again");
@@ -363,14 +374,33 @@ public class PointOfSale extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                purchasedItems.add(foundItem);
+                Object[] itemData = {foundItem.getProductID(),foundItem.getName(), foundItem.getQuantity(),
+                        foundItem.getUnitPrice(), foundItem.getTotalPrice()};
+                model.addRow(itemData);
 
-                for (Item item : purchasedItems) {
-                    Object[] itemData = {item.getProductID()};
-                    model.addRow(itemData);
-                } // end of for
+                System.out.println(purchasedItems.toString());
             } // end of actionPerformed method
         }); // end of actionListener for addButton
+
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                idTextField.setText("");
+                nameTextField.setText("");
+                quantitySpinner.setValue(1);
+                priceTextField.setText("");
+                totalTextField.setText("");
+                model.setRowCount(0);
+
+                purchasedItems.clear();
+            } // end of actionPerformed method
+        }); // end of actionListener for clearButton
+
+
+        totalAmountTextField
+                .setText
+                        (String.valueOf
+                                (utility.computeTotalPrice(purchasedItems)));
     } // end of PointOfSale constructor
 
     private void run() throws Exception {

@@ -157,6 +157,7 @@ public class Item {
         return productID + "," +
                 name + "," +
                 quantity + "," +
-                unitPrice;
+                unitPrice + "," +
+                totalPrice;
     } // end of toString method
 } // end of class Item
