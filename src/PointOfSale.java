@@ -1,6 +1,9 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.lang.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -24,6 +27,10 @@ public class PointOfSale extends JFrame {
      * TODO: Documentation
      */
     private List<Item> purchasedItems = new ArrayList<>();
+
+    private List<Item> inventoryItems = new ArrayList<>();
+
+    private Item foundItem;
 
     /**
      * TODO: Documentation
@@ -329,5 +336,52 @@ public class PointOfSale extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
+
+        // Action Listeners
+        searchButton.addActionListener(new ActionListener() {
+            /**
+             * Indexes an item with its attributes.
+             * @param e the event to be processed
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int id = Integer.parseInt(idTextField.getText().trim());
+                    String name = nameTextField.getText().trim();
+                    int quantity = (int) quantitySpinner.getValue();
+
+                    foundItem = utility.searchItem(id, name);
+                    foundItem.setQuantity(quantity);
+
+                    priceTextField.setText(String.valueOf(foundItem.getUnitPrice()));
+                    totalTextField.setText(String.valueOf(foundItem.getTotalPrice()));
+                } catch (NumberFormatException e1) {
+                    JOptionPane.showMessageDialog(null, "Error looking for product. Try again.");
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Error finding item. Try again");
+                } // end of try-catch
+            } // end of actionPerformed method
+        }); // end of actionListener for searchButton
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                purchasedItems.add(foundItem);
+
+                for (Item item : purchasedItems) {
+                    Object[] itemData = {item.getProductID()};
+                    model.addRow(itemData);
+                } // end of for
+            } // end of actionPerformed method
+        }); // end of actionListener for addButton
     } // end of PointOfSale constructor
+
+    private void run() throws Exception {
+        try {
+            utility.populateInventory();
+            inventoryItems = utility.inventoryItems;
+        } catch (Exception e) {
+            throw new Exception();
+        } // end of try-catch
+    } // end of run method
 } // end of class PointOfSale

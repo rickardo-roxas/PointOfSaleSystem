@@ -21,7 +21,7 @@ public class PointOfSaleUtility {
     /**
      * List of items being sold
      */
-    private List<Item> inventoryItems = new ArrayList<>();
+    public List<Item> inventoryItems = new ArrayList<>();
 
     /**
      * Adds items to the receipt
@@ -82,7 +82,7 @@ public class PointOfSaleUtility {
      * Populates List of items being sold
      * @throws Exception if error or exception occurs during file reading.
      */
-    private void populateInventory() throws Exception {
+    public void populateInventory() throws Exception {
         try {
             BufferedReader inputStream = new BufferedReader(new FileReader("inventory/items.csv"));
             String line = "";
@@ -110,14 +110,24 @@ public class PointOfSaleUtility {
      * @return specified Item
      */
     public Item searchItem(int id, String name) throws Exception {
-        Item indexedItem = null;
-        for (Item item : inventoryItems) {
-            if (item.getName().equalsIgnoreCase(name) || item.getProductID() == id) {
-                indexedItem = new Item(item.getProductID(), item.getName(), 1, item.getUnitPrice());
-            } else
-                throw new Exception();
-        } // end of for
-        return indexedItem;
+        try {
+            return inventoryItems
+                    .stream()
+                    .filter(item -> {
+                        int productID = item.getProductID();
+                        String productName = item.getName();
+                        if (id == 0) {
+                            return (name.equalsIgnoreCase(productName));
+                        } else if (name == null) {
+                            return (productID == item.getProductID());
+                        } else
+                            return (name.equalsIgnoreCase(productName) && id == item.getProductID());
+                    })
+                    .findFirst()
+                    .orElse(null);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException();
+        } // end of try-catch
     } // end of searchItem method
 
     /**
