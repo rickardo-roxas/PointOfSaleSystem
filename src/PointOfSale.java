@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.lang.*;
 import java.time.format.DateTimeFormatter;
@@ -52,18 +53,19 @@ public class PointOfSale extends JFrame {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1200,600);
-        setLayout(new GridLayout(2,2));
+        setLayout(new BorderLayout(5,5));
 
         // Search bar
         JPanel searchPanel = new JPanel(new GridBagLayout());
         searchPanel.setBackground(new Color(47,57,77)); // Charcoal
+        searchPanel.setPreferredSize(new Dimension(700, 600));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10,10,10,10);
 
-        add(searchPanel, gbc);
+        add(searchPanel, BorderLayout.WEST);
 
         // Search bar components
         // Title Label
@@ -71,6 +73,7 @@ public class PointOfSale extends JFrame {
         gbc.gridy = 0;
         JLabel searchTitlePanel = new JLabel();
         searchTitlePanel.setText("Search/Scan Item");
+        searchTitlePanel.setFont(new Font("Arial", Font.BOLD, 20));
         searchTitlePanel.setForeground(Color.white);
         searchTitlePanel.setSize(10,10);
         searchPanel.add(searchTitlePanel, gbc);
@@ -99,11 +102,13 @@ public class PointOfSale extends JFrame {
         JTextField idTextField = new JTextField();
         idTextField.setColumns(5);
         idTextField.setForeground(Color.white);
+        idTextField.setFont(new Font("Arial", Font.PLAIN, 12));
+        idTextField.setBackground(Color.black);
         searchPanel.add(idTextField,gbc);
 
         // Product Name
         // Label
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         JLabel nameLabel = new JLabel();
@@ -113,7 +118,7 @@ public class PointOfSale extends JFrame {
         searchPanel.add(nameLabel, gbc);
 
         // Text Field
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         JTextField nameTextField = new JTextField();
@@ -157,6 +162,8 @@ public class PointOfSale extends JFrame {
         JTextField priceTextField = new JTextField();
         priceTextField.setColumns(7);
         priceTextField.setForeground(Color.white);
+        priceTextField.setFont(new Font("Arial", Font.PLAIN, 12));
+        priceTextField.setBackground(new Color(86,102,107)); // Payne's Gray
         priceTextField.setEditable(false);
         searchPanel.add(priceTextField, gbc);
 
@@ -177,6 +184,8 @@ public class PointOfSale extends JFrame {
         JTextField totalTextField = new JTextField();
         totalTextField.setColumns(10);
         totalTextField.setForeground(Color.white);
+        totalTextField.setFont(new Font("Arial", Font.PLAIN, 12));
+        totalTextField.setBackground(new Color(86,102,107)); // Payne's Gray
         totalTextField.setEditable(false);
         searchPanel.add(totalTextField, gbc);
 
@@ -200,20 +209,122 @@ public class PointOfSale extends JFrame {
         addButton.setOpaque(true);
         searchPanel.add(addButton, gbc);
 
+        // Separator
+        gbc.gridx = 5;
+        gbc.gridy = 5;
+        JSeparator jSeparator = new JSeparator();
+        jSeparator.setOrientation(SwingConstants.HORIZONTAL);
+        jSeparator.setForeground(Color.WHITE);
+        searchPanel.add(jSeparator, gbc);
+
+        // Text Fields
+        // Title Label
+        gbc.gridx = 5;
+        gbc.gridy = 6;
+        JLabel salesTitleLabel = new JLabel();
+        salesTitleLabel.setText("Sales");
+        salesTitleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        salesTitleLabel.setForeground(Color.white);
+        salesTitleLabel.setSize(10,10);
+        searchPanel.add(salesTitleLabel, gbc);
+
+        // Total Amount
+        // Label
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        JLabel totalAmountLabel = new JLabel();
+        totalAmountLabel.setText("Total Amount:");
+        totalAmountLabel.setForeground(Color.white);
+        totalAmountLabel.setAlignmentX(SwingConstants.EAST);
+        searchPanel.add(totalAmountLabel,gbc);
+
+        // Text Field
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        JTextField totalAmountTextField = new JTextField();
+        totalAmountTextField.setColumns(8);
+        totalAmountTextField.setForeground(Color.white);
+        totalAmountTextField.setFont(new Font("Arial", Font.PLAIN, 12));
+        totalAmountTextField.setBackground(new Color(86,102,107)); // Payne's Gray
+        totalAmountTextField.setEditable(false);
+        searchPanel.add(totalAmountTextField,gbc);
+
+        // Discount Percentage
+        // Label
+        gbc.gridx = 3;
+        gbc.gridy = 7;
+        JLabel discountLabel = new JLabel();
+        discountLabel.setText("Discount %");
+        discountLabel.setForeground(Color.white);
+        discountLabel.setAlignmentX(SwingConstants.EAST);
+        searchPanel.add(discountLabel,gbc);
+
+        // Text Field
+        gbc.gridx = 3;
+        gbc.gridy = 8;
+        JTextField discountTextField = new JTextField();
+        discountTextField.setColumns(7);
+        discountTextField.setForeground(Color.white);
+        discountTextField.setFont(new Font("Arial", Font.PLAIN, 12));
+        searchPanel.add(discountTextField, gbc);
+
+        // Discounted Price
+        // Label
+        gbc.gridx = 5;
+        gbc.gridy = 7;
+        JLabel discountedPriceLabel = new JLabel();
+        discountedPriceLabel.setText("Discounted Price");
+        discountedPriceLabel.setForeground(Color.white);
+        discountedPriceLabel.setAlignmentX(SwingConstants.EAST);
+        searchPanel.add(discountedPriceLabel,gbc);
+
+        // Text Field
+        gbc.gridx = 5;
+        gbc.gridy = 8;
+        JTextField discountedPriceTextField = new JTextField();
+        discountedPriceTextField.setColumns(10);
+        discountedPriceTextField.setForeground(Color.white);
+        discountedPriceTextField.setFont(new Font("Arial", Font.PLAIN, 12));
+        discountedPriceTextField.setBackground(new Color(86,102,107)); // Payne's Gray
+        discountedPriceTextField.setEditable(false);
+        searchPanel.add(discountedPriceTextField, gbc);
+
+        // Print Receipt
+        gbc.gridx = 7;
+        gbc.gridy = 8;
+        JButton printButton = new JButton();
+        printButton.setText("Print Receipt");
+        printButton.setVerticalTextPosition(SwingConstants.CENTER);
+        printButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        printButton.setOpaque(true);
+        searchPanel.add(printButton, gbc);
+
+        // Clear
+        gbc.gridx = 9;
+        gbc.gridy = 8;
+        JButton clearButton = new JButton();
+        clearButton.setText("Clear Items");
+        clearButton.setVerticalTextPosition(SwingConstants.CENTER);
+        clearButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        clearButton.setOpaque(true);
+        searchPanel.add(clearButton, gbc);
+
         // Holds the table for items being purchased
         JPanel tablePanel = new JPanel();
         tablePanel.setBackground(Color.DARK_GRAY);
-        add(tablePanel);
+        tablePanel.setPreferredSize(new Dimension(500,600));
+        add(tablePanel, BorderLayout.EAST);
 
-        // Holds the text fields
-        JPanel salesPanel = new JPanel();
-        salesPanel.setBackground(Color.CYAN);
-        add(salesPanel);
-
-        // Holds the buttons
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setBackground(Color.magenta);
-        add(buttonsPanel);
+        // Table
+        String[] columnNames= {"ID", "Name" , "Quantity" , "Unit Price", "Total Price"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        JTable itemTable = new JTable(model);
+        itemTable.getTableHeader().setFont(new Font("Arial" , Font.BOLD, 14));
+        itemTable.setFont(new Font("Arial" , Font.PLAIN, 14));
+        JScrollPane scrollPane = new JScrollPane(itemTable);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(18,7,102), 1));
+        tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         setLocationRelativeTo(null);
         setResizable(false);
